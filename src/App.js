@@ -1,44 +1,60 @@
 import './App.css';
-import LineChrarts1 from './Components/LineCharts1';
-import LineChrarts2 from './Components/LineCharts2';
 import axios from "./axios.config";
-import {useState} from "react";
+import LineChrarts1 from "./Components/LineCharts1"
+import React from "react";
+import ReactDOM from "react-dom";
 
 
 
 
 function App() {
-  const [data1,reset1] = useState([0,0,0,0,0]);
-  const [data2,reset2] = useState([0,0,0,0,0]);
-  
+  let d1=new Array()
+  let d2=new Array()
   function getdata(){
+
     axios
-    .get("", {})
+    .get("")
     .then((response) => {
-      let d1=[0,0,0,0,0]
-      let d2=[0,0,0,0,0]
+
       for(let i=4;i>=0;i--){
-        d1[4-i]=response.data[i].Temperature
-        console.log(123)
-        d2[4-i]=response.data[i].Humidity
+        d1[i]=response.data[4-i].Temperature
+        d2[i]=response.data[4-i].humidity
       }
-      console.log(d1)
-      reset1(d1)
-      reset2(d2)
     })
     .catch((error) => {
+      console.log(error)
     });
+    console.log(d1)
+    
+    const element=(
+      <div className="App">
+        <div className='container'>
+          <div className='Charts1'>
+            <LineChrarts1 data={d1} label="溫度"/>
+          </div>
+          <div className='Charts2'>
+            <LineChrarts1 data={d2} label="濕度"/>
+          </div>
+        </div>
+      {/* <div className='Text'>
+        <p>溫度：</p>
+        <p>濕度：</p>
+      </div> */}
+    </div>
+      )
+    ReactDOM.hydrate(element,document.getElementById('root'));
   }
-  setInterval(getdata(),1000);
-  getdata();
+  setInterval(getdata,1000)
+  window.onload=getdata();
+
   return (
     <div className="App">
       <div className='container'>
       <div className='Charts1'>
-        <LineChrarts1 data={data1}/>
+        <LineChrarts1 data={d1} label="溫度"/>
       </div>
       <div className='Charts2'>
-        <LineChrarts2 data={data2}/>
+        <LineChrarts1 data={d2} label="濕度"/>
       </div>
       </div>
       {/* <div className='Text'>
@@ -50,4 +66,5 @@ function App() {
 }
 
 export default App;
+
 
