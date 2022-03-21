@@ -10,20 +10,30 @@ export default class LineCharts2 extends Component {
 		console.log(data);
 		const ctx = this.chartRef.current.getContext("2d");
 		
-		new Chart(ctx, {
+		var temperatureChart = new Chart(ctx,{
 			type: "line",
 			data: {
-				labels: ["1st", "2nd", "3rd", "4th", "5th"],
-				datasets: [{ 
-					data: data,
-					label: "濕度",
-					borderColor: "#3e95cd",
-					backgroundColor: "#7bb6dd",
-                    fill:false,
-				}
-				]
+			  labels: ['','','','',''],
+			  datasets: [{
+				  label: "溫度",
+				  backgroundColor: "rgb(255, 99, 132)",
+				  borderColor: "rgb(255, 99, 132)",
+				  data: [0,0,0,0,0],
+			  }]
 			},
-		});
+			options: {
+			  responsive: true,
+			  plugins: {
+				legend: {
+				  position: "top",
+				},
+				title: {
+				  display: true,
+				  text: "溫度表",
+				},
+			  },
+			},
+		  })
 	}
 	render() {
 		return (

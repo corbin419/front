@@ -5,49 +5,68 @@ import LineChrarts2 from "./Components/LineCharts2"
 import React,{useState,useEffect,Component} from "react";
 import Chart from 'chart.js/auto';
 
-
+var ctx_live = document.getElementById("myChart");
+var liveChart = new Chart(ctx_live, {
+  type: 'line',
+  data: {
+      labels: ["","","","","",],
+      datasets: [{
+          data: [0,0,0,0,0,],
+          borderWidth: 1,
+          borderColor:'#00c0ef',
+          label: '溫度',
+      }]
+  },
+  options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      legend: {
+          display: false
+      },
+      scales: {
+          yAxes: [{
+              ticks: {
+                  beginAtZero:true,
+              }
+          }]
+      }
+  }
+});
 
 
 function App() {
-  let d1=new Array(5).fill(0)
-  let d2=new Array(5).fill(0)
+
   function getdata(){
 
     axios
-    .get("")
-    .then((response) => {
-
-      for(let i=4;i>=0;i--){
-        d1[i]=response.data[4-i].Temperature
-        d2[i]=response.data[4-i].humidity
+    .get("",{})
+    .then((response) => { 
+      console.log(response)
+      for(let i=0;i<5;i++){
+        liveChart.data.datasets[0].data[4-i] = response.data[i].Temperature
+        liveChart.data.labels[4-i] = response.data[i].Time
       }
-      console.log(d1)
-    })
-    .catch((error) => {
+      liveChart.update()
+    }) 
+    .catch((error) => { 
       console.log(error)
     });
 
-  }
+  } 
 
-  
   setInterval(getdata,1000)
-  window.onload=getdata();
-
-
+ 
+ 
   return (
     <div className="App">
       <div className='container'>
-      <div className='Charts1'>
-        <LineChrarts1 data={d1} label="溫度"/>
+        <div className='Charts1'>
+          <canvas id="myChart" width="400" height="200"></canvas>
+        </div>
+        <div className='Charts2'>
+          <canvas id="myChart2" width="400" height="200"></canvas>
+        </div>
       </div>
-      <div className='Charts2'>
-        <LineChrarts2 data={d2} label="濕度"/>
-      </div>
-      </div>
-      {/* <div className='Text'>
-        <p>溫度：</p>
-        <p>濕度：</p>
-      </div> */}
     </div>
   );
 }
