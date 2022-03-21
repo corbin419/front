@@ -2,8 +2,8 @@ import './App.css';
 import axios from "./axios.config";
 import LineChrarts1 from "./Components/LineCharts1"
 import LineChrarts2 from "./Components/LineCharts2"
-import React,{useState,useEffect,Component} from "react";
-import Chart from 'chart.js/auto';
+import React from "react";
+
 
 
 

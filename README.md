@@ -12,7 +12,7 @@
 * 使用React
 
 # 後端
-* 使用Node
+* 使用Node，Axios抓資料
 
 # MQTT
 ## 功能
